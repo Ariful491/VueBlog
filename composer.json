@@ -25,7 +25,7 @@
     },
     "config": {
         "optimize-autoloader": true,
-        "preferred-install": "dist",
+        "preferred-install": "public/dist",
         "sort-packages": true
     },
     "extra": {
@@ -40,6 +40,9 @@
         "classmap": [
             "database/seeds",
             "database/factories"
+        ],
+        "files": [
+            "app/Helpers/Functions.php"
         ]
     },
     "autoload-dev": {

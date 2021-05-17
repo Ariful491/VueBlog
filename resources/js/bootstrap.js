@@ -9,8 +9,16 @@ window._ = require('lodash');
 try {
     window.Popper = require('popper.js').default;
     window.$ = window.jQuery = require('jquery');
-
     require('bootstrap');
+    require('admin-lte');
+    // require('admin-lte/plugins/jquery/jquery.min');
+    // require('admin-lte/plugins/bootstrap/js/bootstrap.bundle.min');
+    // require('admin-lte/dist/js/adminlte.min');
+    //
+    // require('admin-lte/dist/js/demo');
+
+
+
 } catch (e) {}
 
 /**
@@ -20,6 +28,7 @@ try {
  */
 
 window.axios = require('axios');
+
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
