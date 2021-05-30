@@ -21,5 +21,34 @@ those are use on here:
 "vue-template-compiler": "^2.6.10"<br>
 
 
+
+"@ckeditor/ckeditor5-build-classic": "^27.1.0",<br>
+"@ckeditor/ckeditor5-dev-utils": "^25.0.0",<br>
+"@ckeditor/ckeditor5-dev-webpack-plugin": "^25.0.0",<br>
+"@ckeditor/ckeditor5-vue": "^2.0.1",<br>
+"@ckeditor/ckeditor5-vue2": "^1.0.5",<br>
+"admin-lte": "^3.1.0",<br>
+"laravel-vue-pagination": "^2.3.1",<br>
+"moment": "^2.29.1",<br>
+"postcss-loader": "^3.0.0",<br>
+"sweetalert2": "^10.16.6",<br>
+"toastr": "^2.1.4",<br>
+"vform": "^1.0.1",<br>
+"vue-router": "^3.5.1",<br>
+"vuex": "^3.6.2"<br>
+
+
+Looking :
+
+![discount-bg](https://user-images.githubusercontent.com/52754507/120104333-c8da0d80-c175-11eb-83cf-4ed2c1566536.png)
+
+pagination : 
+
+![paginate](https://user-images.githubusercontent.com/52754507/120104390-0b9be580-c176-11eb-90cb-86a4c6c567cf.png)
+
+
+
+
+
  thanks for read . need more info give issue.
 <h1>Thank You</h1>

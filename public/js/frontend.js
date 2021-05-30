@@ -53434,8 +53434,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_8__["default"].Store(_store_store_
 
 
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_7__["default"]({
-  routes: _public_routes_routes__WEBPACK_IMPORTED_MODULE_11__["routes"] // mode:'history',
-
+  routes: _public_routes_routes__WEBPACK_IMPORTED_MODULE_11__["routes"],
+  mode: 'history'
 }); // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 Vue.component('public-master', __webpack_require__(/*! ./components/frontend/public */ "./resources/js/components/frontend/public.vue")["default"]);
