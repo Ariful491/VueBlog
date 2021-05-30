@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-md-12 card mx-auto">
             <div class="ml-auto mt-2">
-                <router-link to="add-category" class="btn btn-success rounded-0 shadow-sm btn-sm"> add Post </router-link>
+                <router-link to="add-post" class="btn btn-success rounded-0 shadow-sm btn-sm"> add Post </router-link>
             </div>
             <table class="table table-bordered mt-2 ">
                 <thead>
@@ -44,15 +44,15 @@
                     <th scope="row">{{post.category.name}}</th>
                     <th scope="row">{{post.user.name}}</th>
                     <td><a href="edit">{{post.title | subString(15) }}</a></td>
-                    <td>{{ post.description |subString(20) }}</td>
-                    <td>{{post.thumbnail}} </td>
+                    <td v-html="post.description||subString(20)"></td>
+                    <td><img :src="post.thumbnail" style="height:auto!important;width: 120px!important;"></td>
                     <td>
                         <span class="badge badge-btn rounded-0 px-1 shadow-sm badge-primary "  v-if="post.status =='published' "   >{{ post.status |Capital }}</span>
                        <span class="badge badge-btn rounded-0 px-1 shadow-sm bg-danger"  v-else-if="post.status =='draft'" >{{ post.status | Capital}}</span>
                     </td>
                     <td>{{ post.created_at | time }}</td>
                     <td>
-                        <router-link  :to="`editCategory/${post.slug}`"  class="btn btn-primary btn-sm   shadow-none"><i class="fas fa-edit mr-1 "></i> edit</router-link>
+                        <router-link  :to="`editPost/${post.slug}`"  class="btn btn-primary btn-sm   shadow-none"><i class="fas fa-edit mr-1 "></i> edit</router-link>
                         <button @click="removePost(post.slug)" class="btn btn-danger  d-flex btn-sm  shadow-none "><i class="fas fa-trash-alt mr-1 "></i> delete</button>
                     </td>
                 </tr>
@@ -69,14 +69,28 @@
 </template>
 
 <script>
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
 export default {
     name: "Post",
     data:function (){
-      return{
+        return{
+            form: new Form({
+                title:null,
+                category_id:'',
+                status:null,
+                description:null,
+                thumbnail:null,
+            }),
+            editor: ClassicEditor,
+            editorConfig: {
 
-      }
+            }
+
+
+        }
+
     },
-
     mounted() {
 
          this.$store.dispatch('getPosts');

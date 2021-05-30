@@ -4,7 +4,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Add Category</h1>
+                        <h1>Add Post</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -17,23 +17,46 @@
             </div><!-- /.container-fluid -->
         </section>
         <div class="row">
-            <div class="col-md-6 card mx-auto">
+            <div class="col-md-8 card mx-auto">
                <div class="mt-2 ">
-                   add category
+                   add post
                </div>
-                <form   @submit.prevent="StoreCategory" >
+                <form   @submit.prevent="StorePost" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name"  class="form-control" v-model="form.name"  :class="{ 'is-invalid': form.errors.has('name') }"  placeholder="Name">
-                    <has-error :form="form" field="name"></has-error>
+                    <label for="title">Title:</label>
+                    <input type="text" id="title"  class="form-control" v-model="form.title"  :class="{ 'is-invalid': form.errors.has('title') }"  placeholder="Title">
+                    <has-error :form="form" field="title"></has-error>
                 </div>
+                    <div class="form-group">
+                        <label for="category_id">Select Category</label>
+                        <select class="form-control" id="category_id" name="category_id"  :class="{ 'is-invalid': form.errors.has('category_id') }" v-model="form.category_id">
+                            <option value="">Select Category Name</option>
+
+                            <option  v-for="category in Categories" v-if="category.status==1"  :value="category.id">{{ category.name }}</option>
+
+                        </select>
+                        <has-error :form="form" field="category_id"></has-error>
+                    </div>
+                <div class="form-group">
+                    <label >Description :</label>
+                    <ckeditor  id="description"  class="form-control" :editor="editor" v-model="form.description" :config="editorConfig"  :class="{ 'is-invalid': form.errors.has('description') }"  placeholder="Description"></ckeditor>
+                    <has-error :form="form" field="description"></has-error>
+                </div>
+                    <div class="form-group">
+                    <label for="thumbnail">Thumbnail :</label>
+                        <input type="file" class="form-control-file" @change="loadThumbnail($event)" id="thumbnail" name="thumbnail"  :class="{ 'is-invalid': form.errors.has('thumbnail') }">
+
+                        <img  :src="form.thumbnail"   height="80px">
+                    </div>
+                    <has-error :form="form" field="thumbnail"></has-error>
+
                 <div class="form-group">
                     <label>Status: </label>
                     <label for="status1">
-                    <input type="radio"  class="form-check-inline" id="status1"  v-model="form.status"   name="status" value="1"    >Active
+                    <input type="radio"  class="form-check-inline" id="status1"  v-model="form.status"   name="status" value="published"    >Published
                     </label>
                     <label for="status0">
-                     <input type="radio" id="status0"  class="form-check-inline"  v-model="form.status"  name="status" value="0">De Active
+                     <input type="radio" id="status0"  class="form-check-inline"  v-model="form.status"  name="status" value="draft">Draft
                     </label>
                     <span :class="{ 'is-invalid': form.errors.has('status') }"></span>
                     <has-error :form="form" field="status"></has-error>
@@ -43,7 +66,7 @@
                        <span v-if="form.busy"><i class="fas fa-spinner fa-pulse"></i></span>
                        <span v-else><i class="fas fa-plus-square"></i></span>
 
-                       Add Category
+                       Add Post
                    </button>
                    <button class="float-right btn btn-light shadow-lg " type="reset">cancle</button>
 
@@ -56,44 +79,51 @@
 </template>
 
 <script>
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 export default {
     name: "AddPost",
     data:function (){
         return{
             form: new Form({
-                name:null,
+                title:null,
+                category_id:'',
                 status:null,
+                description:null,
+                thumbnail:null,
             }),
+            editor: ClassicEditor,
+
+            editorConfig: {
+
+            }
+
 
         }
-
     },
     methods:{
-        StoreCategory:function (){
+        StorePost:function (){
             let calling =this;
-            this.form.post('categories')
+            this.form.post('posts')
                 .then(function (response) {
                     calling.DataNull();
-                    // Toast.fire({
-                    //     icon: 'success',
-                    //     title: response.data.message,
-                    // })
-
-                    toastr.success(response.status, response.data.message, {timeOut: 5000})
-                    calling.$router.push('/category')
+                    toastr.success(response.status+' '+response.data.message, {timeOut: 5000})
+                    calling.$router.push('/Post');
                 })
 
           },
-        DataNull:function (){
-            let calling =this;
-            calling.form.name=null;
-            calling.form.status=null
-        }
+
+
 
     },
     mounted() {
-
-    }
+        this.$store.dispatch('getCategories');
+    },
+    computed:{
+        Categories(){
+            return  this.$store.getters.category;
+        }
+    },
 
 }
 </script>

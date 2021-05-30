@@ -14,12 +14,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts.frontend');
 });
+Route::get('/activeCategory', 'FrontendController@activeCategory');
+Route::get('category-posts/{slug}', 'FrontendController@Posts');
+Route::get('/get-all-posts', 'FrontendController@Allposts');
+Route::get('/post-details/{slug}', 'FrontendController@postDetail');
+
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
 //Route::get('/{anypath}', 'HomeController@index')->where('path','.*');
 
 Route::resource('posts', 'PostController');

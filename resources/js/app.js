@@ -66,10 +66,15 @@ import {routes} from './routes/routes';
 
 import './helpers/mixin';
 
+// ckeditor
+import CKEditor from '@ckeditor/ckeditor5-vue2';
+
+Vue.use(CKEditor);
 
 const app = new Vue({
     el: '#content',
     router,
     store,
+
 
 });

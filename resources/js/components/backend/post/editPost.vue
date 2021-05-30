@@ -4,7 +4,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Update Category</h1>
+                        <h1>Update Post</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -19,25 +19,49 @@
         <div class="row">
             <div class="col-md-6 card mx-auto">
                 <div class="mt-2 ">
-                    update category
+                    update Post
                 </div>
                 <form   @submit.prevent="updateCategory" >
                     <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name"  class="form-control" v-model="form.name"  :class="{ 'is-invalid': form.errors.has('name') }"  placeholder="Name">
-                        <has-error :form="form" field="name"></has-error>
+                        <label for="title">Title:</label>
+                        <input type="text" id="title"  class="form-control" v-model="form.title"  :class="{ 'is-invalid': form.errors.has('title') }"  placeholder="Title">
+                        <has-error :form="form" field="title"></has-error>
                     </div>
+                    <div class="form-group">
+                        <label for="category_id">Select Category</label>
+                        <select class="form-control" id="category_id" name="category_id"  :class="{ 'is-invalid': form.errors.has('category_id') }" v-model="form.category_id">
+                            <option value="">Select Category Name</option>
+
+                            <option  v-for="category in Categories" v-if="category.status==1"  :value="category.id">{{ category.name }}</option>
+
+                        </select>
+                        <has-error :form="form" field="category_id"></has-error>
+                    </div>
+                    <div class="form-group">
+                        <label >Description :</label>
+                        <ckeditor  id="description"  class="form-control" :editor="editor" v-model="form.description" :config="editorConfig"  :class="{ 'is-invalid': form.errors.has('description') }"  placeholder="Description"></ckeditor>
+                        <has-error :form="form" field="description"></has-error>
+                    </div>
+                    <div class="form-group">
+                        <label for="thumbnail">Thumbnail :</label>
+                        <input type="file" class="form-control-file" @change="loadThumbnail($event)" id="thumbnail" name="thumbnail"  :class="{ 'is-invalid': form.errors.has('thumbnail') }">
+
+                        <img  :src="form.thumbnail"   height="80px">
+                    </div>
+                    <has-error :form="form" field="thumbnail"></has-error>
                     <div class="form-group">
                         <label>Status: </label>
                         <label for="status1">
-                            <input type="radio"  class="form-check-inline" id="status1"  v-model="form.status"   name="status" value="1"    >Active
+                            <input type="radio"  class="form-check-inline" id="status1"  v-model="form.status"   name="status" value="published"    >Published
                         </label>
                         <label for="status0">
-                            <input type="radio" id="status0"  class="form-check-inline"  v-model="form.status"  name="status" value="0">De Active
+                            <input type="radio" id="status0"  class="form-check-inline"  v-model="form.status"  name="status" value="draft">Draft
                         </label>
                         <span :class="{ 'is-invalid': form.errors.has('status') }"></span>
                         <has-error :form="form" field="status"></has-error>
                     </div>
+
+
                     <div class="form-group">
                         <button   :disabled="form.busy"   :class="{ 'btn-danger': form.busy == true }"      class="btn btn-primary rounded-0 float-right  shadow-lg mb-3">
                             <span v-if="form.busy"><i class="fas fa-spinner fa-pulse"></i></span>
@@ -56,15 +80,25 @@
 </template>
 
 <script>
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 export default {
     name: "editPost",
     data:function (){
         return{
             form: new Form({
-                id:null,
-                name:null,
+                title:null,
+                category_id:'',
                 status:null,
+                description:null,
+                thumbnail:null,
+                id:null,
             }),
+            editor: ClassicEditor,
+
+            editorConfig: {
+
+            }
+
 
         }
 
@@ -72,37 +106,40 @@ export default {
     methods:{
         updateCategory:function (){
             let calling =this;
-            this.form.post('categories/update')
+            this.form.post('posts/update')
                 .then(function (response) {
                     calling.DataNull();
                     toastr.success(response.data.message, {timeOut: 5000})
-                    calling.$router.push('/category')
+                    calling.$router.push('/Post')
                 })
 
         },
         categoryDetails:function (){
             let calling=this;
-            axios.get("/categoryDetails/"+this.$route.params.slug)
+            axios.get("/postDetails/"+this.$route.params.slug)
                 .then(function (response){
-                   calling.form.fill(response.data.categoryDetail);
+                   calling.form.fill(response.data.post);
                 }).catch(function (error) {
                 return error
             })
         },
 
 
-        DataNull:function (){
-            let calling =this;
-            calling.form.name=null;
-            calling.form.status=null
-        },
+
+
 
     },
     mounted() {
 
      this.categoryDetails();
+        this.$store.dispatch('getCategories');
 
-    }
+    },
+    computed:{
+        Categories(){
+            return  this.$store.getters.category;
+        }
+    },
 
 }
 </script>

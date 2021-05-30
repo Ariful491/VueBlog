@@ -9,6 +9,8 @@ import editPost from "../components/backend/post/editPost";
 
 
 
+
+
 export  const routes = [
     { path: '/home', component:dashboard  },
     { path: '/category', component:Category  },
@@ -20,6 +22,4 @@ export  const routes = [
     { path: '/editPost/:slug', component:editPost  },
 
 
-
-    // { path: '/bar', component: Bar }
 ]

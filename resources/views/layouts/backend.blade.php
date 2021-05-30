@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AdminLTE 3 | Blank Page</title>
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <style>
         .form-inline .input-group,
         .form-inline .custom-select {
@@ -122,7 +122,7 @@
 
 
                     <li class="nav-item">
-                        <router-link to="/home" class="nav-link">
+                        <router-link to="/home" class="nav-link" active-class="active">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
                                 Home
@@ -131,7 +131,7 @@
                         </router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="/category" class="nav-link">
+                        <router-link to="/category" class="nav-link" active-class="active">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
                                 Category
@@ -140,7 +140,7 @@
                         </router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="/Post" class="nav-link">
+                        <router-link to="/Post" class="nav-link" active-class="active">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
                                 Posts
@@ -180,7 +180,7 @@
 </div>
 <!-- ./wrapper -->
 
-<script src="{{ asset('js/app.js') }}" defer></script>
+<script src="{{ mix('js/app.js') }}" defer></script>
 </body>
 </html>
 

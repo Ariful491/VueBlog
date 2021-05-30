@@ -3,6 +3,8 @@ export default {
         state: {
             category_data:[],
             post_data:[],
+            activeCategory:[],
+            allPosts:[],
         },
         getters: {
             category(state){
@@ -10,6 +12,12 @@ export default {
             },
             post(state){
                 return state.post_data
+            },
+            activeCategories(state){
+                return state.activeCategory
+            },
+            getAllposts(state){
+                return state.allPosts
             }
         },
         actions:{
@@ -30,8 +38,20 @@ export default {
             getPosts(post){
                 axios.get('/posts')
                     .then( (response) => {
-
                         post.commit("postAll",response.data.posts )
+
+                    })
+                    .catch((error)=>{
+                        console.log(error)
+                    })
+
+            },
+            getActiveCategories(activeCategory){
+                axios.get('/activeCategory')
+                    .then( (response) => {
+
+                        activeCategory.commit("activeCategory",response.data.activeCategories )
+                        // console.log(response.data.activeCategories)
 
                     })
                     .catch((error)=>{
@@ -41,7 +61,18 @@ export default {
 
                     })
 
+            },
+            getPostsAll(posts){
+                axios.get('/get-all-posts')
+                    .then((response)=>{
+                       posts.commit("allActivePosts",response.data.posts)
+                    })
+                    .catch((error)=>{
+                        console.log(error)
+                    })
             }
+
+
         },
         mutations: {
             categoryAll(state,data){
@@ -49,6 +80,12 @@ export default {
             },
             postAll(state,data){
                 return state.post_data = data;
+            },
+            activeCategory(state,data){
+                return state.activeCategory = data;
+            },
+            allActivePosts(state,data){
+                return state.allPosts = data;
             }
         }
 
